@@ -25,6 +25,10 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     def library = rootProject.ext.dependencies
     implementation fileTree(dir: 'libs', include: ['*.jar'])
