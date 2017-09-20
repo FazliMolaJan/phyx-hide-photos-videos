@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["compilesdk_version"]
+    buildToolsVersion globalConfiguration["buildtools_version"]
+    defaultConfig {
+        applicationId "com.aganticsoft.phyxhidephotosandvideos"
+        minSdkVersion globalConfiguration["minsdk_version"]
+        targetSdkVersion globalConfiguration["targetsdk_version"]
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    def library = rootProject.ext.dependencies
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation library.kotlinStd
+    implementation library.appCompat
+    implementation library.appDesign
+    testImplementation library.jUnit
+    compile library.constraintLayout
+    implementation library.dagger
+    kapt library.daggerCompiler
+    implementation library.daggerAndroid
+    implementation library.daggerAndroidSupport
+    kapt library.daggerAndroidProcessor
+    implementation library.timber
+    implementation library.picasso
+    implementation library.roomRuntime
+    kapt library.roomCompiler
+    implementation library.lifecycleRuntime
+    implementation library.lifecycleExtention
+    kapt library.lifecycleCompiler
+}

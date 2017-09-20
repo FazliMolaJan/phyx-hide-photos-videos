@@ -1,0 +1,54 @@
+ext {
+    compilesdk_version = 26
+    buildtools_version = "26.0.1"
+    minsdk_version = 19
+    targetsdk_version = 26
+
+
+    rxjava_version = "2.1.0"
+    rxandroid_version = "2.0.1"
+    firebase_version = "11.0.2"
+    support_version = "26.1.0"
+    junit_version = "4.12"
+    dagger_version = "2.11"
+    timber_version = "4.5.1"
+    room_version = "1.0.0-alpha9-1"
+    lifecycleruntime_version = "1.0.0"
+    lifecycle_version = "1.0.0-alpha9-1"
+    okhttp_version = "3.8.1"
+    picasso_version = "2.5.2"
+    pageindicatorview_version = "0.2.0"
+    picasso_downloader = "1.1.0"
+    constraint_layout_version = "1.0.2"
+    crashlytics_version = "2.6.8@aar"
+
+    dependencies = [
+            rxJava: "io.reactivex.rxjava2:rxjava:${rxjava_version}",
+            rxAndroid: "io.reactivex.rxjava2:rxandroid:${rxandroid_version}",
+            rxKotlin: "io.reactivex.rxjava2:rxkotlin:${rxjava_version}",
+            firebaseCore: "com.google.firebase:firebase-core:${firebase_version}",
+            firebaseDatabase: "com.google.firebase:firebase-database:${firebase_version}",
+            dagger: "com.google.dagger:dagger:${dagger_version}",
+            daggerCompiler: "com.google.dagger:dagger-compiler:${dagger_version}",
+            daggerAndroid: "com.google.dagger:dagger-android:${dagger_version}",
+            daggerAndroidSupport: "com.google.dagger:dagger-android-support:${dagger_version}",
+            daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:${dagger_version}",
+            appCompat: "com.android.support:appcompat-v7:${support_version}",
+            appDesign: "com.android.support:design:${support_version}",
+            jUnit: "junit:junit:${junit_version}",
+            constraintLayout: "com.android.support.constraint:constraint-layout:${constraint_layout_version}",
+            timber: "com.jakewharton.timber:timber:${timber_version}",
+            picasso: "com.squareup.picasso:picasso:${picasso_version}",
+            picassoDownloader: "com.jakewharton.picasso:picasso2-okhttp3-downloader:${picasso_downloader}",
+            okHttp: "com.squareup.okhttp3:okhttp:${okhttp_version}",
+            roomRuntime: "android.arch.persistence.room:runtime:${room_version}",
+            roomCompiler: "android.arch.persistence.room:compiler:${room_version}",
+            roomRxJava: "android.arch.persistence.room:rxjava2:${room_version}",
+            pageIndicator: "com.romandanylyk:pageindicatorview:${pageindicatorview_version}",
+            kotlinStd: "org.jetbrains.kotlin:kotlin-stdlib-jre7:${kotlin_version}",
+            crashlytics: "com.crashlytics.sdk.android:crashlytics:${crashlytics_version}",
+            lifecycleRuntime: "android.arch.lifecycle:runtime:${lifecycleruntime_version}",
+            lifecycleExtention: "android.arch.lifecycle:extensions:${lifecycle_version}",
+            lifecycleCompiler: "android.arch.lifecycle:compiler:${lifecycle_version}"
+    ]
+}
