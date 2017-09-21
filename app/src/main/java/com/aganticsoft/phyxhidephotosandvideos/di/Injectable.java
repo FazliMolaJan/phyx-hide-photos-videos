@@ -1,4 +1,4 @@
-package com.aganticsoft.phyxhidephotosandvideos.di
+package com.aganticsoft.phyxhidephotosandvideos.di;
 
-interface Injectable {
+public interface Injectable {
 }

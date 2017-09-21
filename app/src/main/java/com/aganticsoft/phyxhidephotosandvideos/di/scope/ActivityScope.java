@@ -1,12 +1,18 @@
-package com.aganticsoft.phyxhidephotosandvideos.di.scope
+package com.aganticsoft.phyxhidephotosandvideos.di.scope;
 
-import javax.inject.Scope
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import javax.inject.Scope;
 
 /**
  * Created by ttson
  * Date: 6/16/2017.
  */
 @Scope
-@MustBeDocumented
-@Retention(AnnotationRetention.RUNTIME)
-annotation class ActivityScope
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ActivityScope {
+
+}
