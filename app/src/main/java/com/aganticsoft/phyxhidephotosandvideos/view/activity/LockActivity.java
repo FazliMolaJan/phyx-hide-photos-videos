@@ -15,7 +15,7 @@ import com.andrognito.pinlockview.PinLockView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LockActivity extends AppCompatActivity {
+public class LockActivity extends BaseActivity {
 
     @BindView(R.id.tvDescription)
     TextView tvDescription;
@@ -68,6 +68,7 @@ public class LockActivity extends AppCompatActivity {
                         startActivity(intent);
                     } else {
                         retypePassword = true;
+                        tvDescription.setText("Retype new password:");
                         pinLockView.resetPinLockView();
                     }
                 } else { // require password

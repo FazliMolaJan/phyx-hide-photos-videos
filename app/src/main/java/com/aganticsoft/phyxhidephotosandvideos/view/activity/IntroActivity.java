@@ -15,7 +15,7 @@ import com.aganticsoft.phyxhidephotosandvideos.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class IntroActivity extends AppCompatActivity {
+public class IntroActivity extends BaseActivity {
 
     private static final int REQUEST_WRITE_EXTERNAL = 0x88;
 
@@ -33,14 +33,15 @@ public class IntroActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-        }
-        setContentView(R.layout.activity_intro);
-        ButterKnife.bind(this);
+        } else {
+            setContentView(R.layout.activity_intro);
+            ButterKnife.bind(this);
 
-        btnGrant.setOnClickListener( v -> {
-            ActivityCompat.requestPermissions(this
-                    , new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL);
-        });
+            btnGrant.setOnClickListener( v -> {
+                ActivityCompat.requestPermissions(this
+                        , new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL);
+            });
+        }
     }
 
     @Override

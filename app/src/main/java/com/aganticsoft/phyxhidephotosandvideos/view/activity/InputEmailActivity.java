@@ -10,7 +10,7 @@ import com.aganticsoft.phyxhidephotosandvideos.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class InputEmailActivity extends AppCompatActivity {
+public class InputEmailActivity extends BaseActivity {
 
     @BindView(R.id.btnSkip)
     Button btnSkip;
