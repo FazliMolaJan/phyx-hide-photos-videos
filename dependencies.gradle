@@ -21,6 +21,8 @@ ext {
     picasso_downloader = "1.1.0"
     constraint_layout_version = "1.0.2"
     crashlytics_version = "2.6.8@aar"
+    pinlock_version = "2.1.0"
+    butterknife_version = "8.8.1"
 
     dependencies = [
             rxJava: "io.reactivex.rxjava2:rxjava:${rxjava_version}",
@@ -45,10 +47,12 @@ ext {
             roomCompiler: "android.arch.persistence.room:compiler:${room_version}",
             roomRxJava: "android.arch.persistence.room:rxjava2:${room_version}",
             pageIndicator: "com.romandanylyk:pageindicatorview:${pageindicatorview_version}",
-            kotlinStd: "org.jetbrains.kotlin:kotlin-stdlib-jre7:${kotlin_version}",
             crashlytics: "com.crashlytics.sdk.android:crashlytics:${crashlytics_version}",
             lifecycleRuntime: "android.arch.lifecycle:runtime:${lifecycleruntime_version}",
             lifecycleExtention: "android.arch.lifecycle:extensions:${lifecycle_version}",
-            lifecycleCompiler: "android.arch.lifecycle:compiler:${lifecycle_version}"
+            lifecycleCompiler: "android.arch.lifecycle:compiler:${lifecycle_version}",
+            pinLock: "com.andrognito.pinlockview:pinlockview:${pinlock_version}",
+            butterKnife: "com.jakewharton:butterknife:${butterknife_version}",
+            butterKnifeCompiler: "com.jakewharton:butterknife-compiler:${butterknife_version}"
     ]
 }

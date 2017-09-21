@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
 
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
-
 android {
     def globalConfiguration = rootProject.extensions.getByName("ext")
 
@@ -16,7 +12,14 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -25,31 +28,30 @@ android {
     }
 }
 
-kapt {
-    generateStubs = true
-}
-
 dependencies {
     def library = rootProject.ext.dependencies
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation library.kotlinStd
     implementation library.appCompat
     implementation library.appDesign
     testImplementation library.jUnit
     compile library.constraintLayout
     implementation library.dagger
-    kapt library.daggerCompiler
+    annotationProcessor library.daggerCompiler
     implementation library.daggerAndroid
     implementation library.daggerAndroidSupport
-    kapt library.daggerAndroidProcessor
+    annotationProcessor library.daggerAndroidProcessor
     implementation library.timber
     implementation library.picasso
     implementation library.roomRuntime
-    kapt library.roomCompiler
+    annotationProcessor library.roomCompiler
     implementation library.lifecycleRuntime
     implementation library.lifecycleExtention
-    kapt library.lifecycleCompiler
+    annotationProcessor library.lifecycleCompiler
+    implementation library.pinLock
+    implementation library.butterKnife
+    annotationProcessor library.butterKnifeCompiler
 }
