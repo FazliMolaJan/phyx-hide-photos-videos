@@ -34,7 +34,7 @@ public class SettingFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_album, container, false);
+        View v = inflater.inflate(R.layout.fragment_setting, container, false);
         ButterKnife.bind(this , v);
 
         return v;
