@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+
 import com.aganticsoft.phyxhidephotosandvideos.di.Injectable;
 import com.aganticsoft.phyxhidephotosandvideos.di.component.DaggerAppComponent;
+
 import dagger.android.AndroidInjection;
 import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.HasSupportFragmentInjector;
@@ -18,6 +20,8 @@ import timber.log.Timber;
  * Date: 6/18/2017.
  */
 public class AppInjector {
+    private AppInjector() {}
+
 
         public static void init(PhyxApp app) {
             DaggerAppComponent.builder().application(app)
@@ -29,7 +33,7 @@ public class AppInjector {
 
                 @Override
                 public void onActivityCreated(Activity activity, Bundle bundle) {
-                    Timber.e("Activity created: ${activity!!::class.java.simpleName}");
+                    Timber.e("Activity created: %s", activity.getClass().getName());
 
                     handleAcitivityCreated(activity);
                 }
@@ -67,7 +71,7 @@ public class AppInjector {
         }
 
         public static void handleAcitivityCreated(Activity activity) {
-            if (activity instanceof HasSupportFragmentInjector) {
+            if (activity instanceof HasSupportFragmentInjector || activity instanceof Injectable) {
                 AndroidInjection.inject(activity);
                 Timber.e("HasSupportFragmentInjector inject");
             }

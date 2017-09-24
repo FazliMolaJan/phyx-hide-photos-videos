@@ -3,24 +3,32 @@ package com.aganticsoft.phyxhidephotosandvideos.view.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.widget.Button;
 
+import com.aganticsoft.phyxhidephotosandvideos.PhyxApp;
 import com.aganticsoft.phyxhidephotosandvideos.R;
+import com.aganticsoft.phyxhidephotosandvideos.di.Injectable;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
-public class IntroActivity extends BaseActivity {
+public class IntroActivity extends BaseActivity{
 
     private static final int REQUEST_WRITE_EXTERNAL = 0x88;
 
     @BindView(R.id.btnGrant)
     Button btnGrant;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +59,9 @@ public class IntroActivity extends BaseActivity {
                 Intent intent = new Intent(this, InputEmailActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+
+                PhyxApp.getInstance().initDirectory();
+
                 break;
         }
 

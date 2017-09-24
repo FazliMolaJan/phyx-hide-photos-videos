@@ -54,4 +54,8 @@ dependencies {
     implementation library.pinLock
     implementation library.butterKnife
     annotationProcessor library.butterKnifeCompiler
+    compile library.floatingAction
+    provided library.autoValue
+    annotationProcessor library.autoValue
+    annotationProcessor library.autoParcel
 }

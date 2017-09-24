@@ -23,6 +23,9 @@ ext {
     crashlytics_version = "2.6.8@aar"
     pinlock_version = "2.1.0"
     butterknife_version = "8.8.1"
+    fab_version = "1.10.1"
+    autovalue_version = "1.5.1"
+    autoparcel_version = "0.2.5"
 
     dependencies = [
             rxJava: "io.reactivex.rxjava2:rxjava:${rxjava_version}",
@@ -53,6 +56,10 @@ ext {
             lifecycleCompiler: "android.arch.lifecycle:compiler:${lifecycle_version}",
             pinLock: "com.andrognito.pinlockview:pinlockview:${pinlock_version}",
             butterKnife: "com.jakewharton:butterknife:${butterknife_version}",
-            butterKnifeCompiler: "com.jakewharton:butterknife-compiler:${butterknife_version}"
+            butterKnifeCompiler: "com.jakewharton:butterknife-compiler:${butterknife_version}",
+            floatingAction: "com.getbase:floatingactionbutton:${fab_version}",
+            autoValue: "com.google.auto.value:auto-value:${autovalue_version}",
+            autoParcel: "com.ryanharter.auto.value:auto-value-parcel:${autoparcel_version}"
+
     ]
 }
