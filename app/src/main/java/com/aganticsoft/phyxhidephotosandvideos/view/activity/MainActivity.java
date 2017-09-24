@@ -1,5 +1,6 @@
 package com.aganticsoft.phyxhidephotosandvideos.view.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
@@ -49,6 +50,11 @@ public class MainActivity extends BaseActivity implements HasSupportFragmentInje
         viewPager.addOnPageChangeListener(this);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

@@ -23,7 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.InputEmailActivity" />
-        <activity android:name=".view.activity.LockActivity"></activity>
+        <activity android:name=".view.activity.LockActivity" />
+        <activity android:name=".view.activity.MediaChooseActivity"></activity>
     </application>
 
 </manifest>

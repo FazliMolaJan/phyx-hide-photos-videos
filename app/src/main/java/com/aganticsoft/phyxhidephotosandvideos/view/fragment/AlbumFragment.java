@@ -1,7 +1,7 @@
 package com.aganticsoft.phyxhidephotosandvideos.view.fragment;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,9 +11,10 @@ import android.view.ViewGroup;
 import com.aganticsoft.phyxhidephotosandvideos.R;
 import com.aganticsoft.phyxhidephotosandvideos.di.Injectable;
 import com.aganticsoft.phyxhidephotosandvideos.model.MediaModel;
-import com.aganticsoft.phyxhidephotosandvideos.util.MediaLoader;
 import com.aganticsoft.phyxhidephotosandvideos.util.PrefManager;
+import com.aganticsoft.phyxhidephotosandvideos.view.activity.MediaChooseActivity;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import javax.inject.Inject;
 
@@ -37,11 +38,15 @@ public class AlbumFragment extends BaseFragment implements Injectable {
     FloatingActionButton fabAddVideo;
     @BindView(R.id.fabAddAlbum)
     FloatingActionButton fabAddAlbum;
+    @BindView(R.id.multiple_actions)
+    FloatingActionsMenu fabMenus;
+
+    public static final int REQUEST_CHOOSE_IMAGES = 0x91;
+    public static final int REQUEST_CHOOSE_VIDEOS = 0x92;
 
 
     @Inject
     PrefManager prefManager;
-
     private Context mContext;
 
     public static AlbumFragment newInstance() {
@@ -70,8 +75,6 @@ public class AlbumFragment extends BaseFragment implements Injectable {
         View v = inflater.inflate(R.layout.fragment_album, container, false);
         ButterKnife.bind(this , v);
 
-
-
         return v;
     }
 
@@ -80,22 +83,35 @@ public class AlbumFragment extends BaseFragment implements Injectable {
         super.onActivityCreated(savedInstanceState);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+                break;
+        }
+    }
 
     // <editor-fold desc="[ =============== BIND CLICK ===================]">
 
     @OnClick(R.id.fabAddPhoto)
     public void onClickAddPhoto() {
-        MediaLoader.loadImages(mContext);
+        startActivityForResult(MediaChooseActivity.getIntent(mContext
+                , MediaModel.MediaType.TYPE_IMAGE), REQUEST_CHOOSE_IMAGES);
+
+        fabMenus.collapse();
     }
 
     @OnClick(R.id.fabAddVideo)
     public void onClickAddVideo() {
-        MediaLoader.loadVideos(mContext);
+        startActivityForResult(MediaChooseActivity.getIntent(mContext
+                , MediaModel.MediaType.TYPE_IMAGE), REQUEST_CHOOSE_VIDEOS);
+        fabMenus.collapse();
     }
 
     @OnClick(R.id.fabAddAlbum)
     public void onClickAddAlbum() {
-
+        fabMenus.collapse();
     }
 
     // </editor-fold>

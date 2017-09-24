@@ -14,7 +14,7 @@ import dagger.Provides;
  * Created by ttson
  * Date: 6/16/2017.
  */
-@Module
+@Module(includes = {ViewModelModule.class})
 public class AppModule {
 
     @Provides
