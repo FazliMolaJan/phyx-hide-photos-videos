@@ -21,6 +21,7 @@ import com.aganticsoft.phyxhidephotosandvideos.R;
 import com.aganticsoft.phyxhidephotosandvideos.model.MediaModel;
 import com.aganticsoft.phyxhidephotosandvideos.model.Resource;
 import com.aganticsoft.phyxhidephotosandvideos.view.fragment.BaseFragment;
+import com.aganticsoft.phyxhidephotosandvideos.view.fragment.ChooseAlbumFragment;
 import com.aganticsoft.phyxhidephotosandvideos.viewmodel.MediaViewModel;
 
 import java.util.List;
@@ -46,10 +47,9 @@ public class MediaChooseActivity extends BaseActivity implements HasSupportFragm
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
-    @Inject
-    ViewModelProvider.Factory viewModelFactory;
+    private ChooseAlbumFragment frgChooseAlbum;
 
-    private MediaViewModel mediaViewModel;
+
 
     public static Intent getIntent(Context context, @MediaModel.MediaType int mediaType) {
         Intent intent = new Intent(context, MediaChooseActivity.class);
@@ -69,42 +69,24 @@ public class MediaChooseActivity extends BaseActivity implements HasSupportFragm
         mediaType = getIntent().getIntExtra("type", MediaModel.MediaType.TYPE_IMAGE);
 
         initToolbar();
-        initData();
+        initFragment();
     }
 
+    private void initFragment() {
+        frgChooseAlbum = ChooseAlbumFragment.getInstance(mediaType);
 
-
-    private void initData() {
-        Timber.e("initData");
-
-        mediaViewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(MediaViewModel.class);
-        mediaViewModel.getImages().observe(this, this::onResourceChanged);
-        mediaViewModel.getVideos().observe(this, this::onResourceChanged);
-
-        mediaViewModel.requestVideos();
-    }
-
-    public void onResourceChanged(Resource<List<MediaModel>> resourceList) {
-        if (resourceList.status == Resource.Status.SUCESS) {
-            Timber.e("Loading image sucess");
-            for (MediaModel model : resourceList.data) {
-                Timber.e(model.toString());
-            }
-        } else if (resourceList.status == Resource.Status.LOADING) {
-            Timber.e("Loading image...");
-        } else { // error
-            Timber.e("Loading image error");
-        }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_content, frgChooseAlbum)
+                .commit();
     }
 
     private void initToolbar() {
         setSupportActionBar(toolbar);
 
         if (mediaType == MediaModel.MediaType.TYPE_IMAGE) {
-            toolbar.setTitle("Choose images to hdie");
+            getSupportActionBar().setTitle("Choose images to hdie");
         } else {
-            toolbar.setTitle("Choose videos to hide");
+            getSupportActionBar().setTitle("Choose videos to hide");
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

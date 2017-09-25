@@ -105,7 +105,7 @@ public class AlbumFragment extends BaseFragment implements Injectable {
     @OnClick(R.id.fabAddVideo)
     public void onClickAddVideo() {
         startActivityForResult(MediaChooseActivity.getIntent(mContext
-                , MediaModel.MediaType.TYPE_IMAGE), REQUEST_CHOOSE_VIDEOS);
+                , MediaModel.MediaType.TYPE_VIDEO), REQUEST_CHOOSE_VIDEOS);
         fabMenus.collapse();
     }
 

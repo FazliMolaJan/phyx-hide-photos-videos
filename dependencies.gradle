@@ -26,6 +26,7 @@ ext {
     fab_version = "1.10.1"
     autovalue_version = "1.5.1"
     autoparcel_version = "0.2.5"
+    glide_version = "4.1.1"
 
     dependencies = [
             rxJava: "io.reactivex.rxjava2:rxjava:${rxjava_version}",
@@ -59,7 +60,9 @@ ext {
             butterKnifeCompiler: "com.jakewharton:butterknife-compiler:${butterknife_version}",
             floatingAction: "com.getbase:floatingactionbutton:${fab_version}",
             autoValue: "com.google.auto.value:auto-value:${autovalue_version}",
-            autoParcel: "com.ryanharter.auto.value:auto-value-parcel:${autoparcel_version}"
+            autoParcel: "com.ryanharter.auto.value:auto-value-parcel:${autoparcel_version}",
+            glide: "com.github.bumptech.glide:glide:${glide_version}",
+            glideCompiler: "com.github.bumptech.glide:compiler:${glide_version}"
 
     ]
 }

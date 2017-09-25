@@ -20,11 +20,11 @@ public abstract class MediaModel {
         int TYPE_VIDEO = 1;
     }
 
-    abstract int bucketId();
-    abstract String bucketName();
-    abstract String bucketUrl();
-    abstract String displayName();
-    abstract int mediaType();
+    public abstract int bucketId();
+    public abstract String bucketName();
+    public abstract String bucketUrl();
+    public abstract String displayName();
+    public abstract int mediaType();
 
     @AutoValue.Builder
     public abstract static class Builder {

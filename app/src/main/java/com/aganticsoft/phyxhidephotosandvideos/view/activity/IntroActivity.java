@@ -43,6 +43,7 @@ public class IntroActivity extends BaseActivity{
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            finish();
         } else {
             setContentView(R.layout.activity_intro);
             ButterKnife.bind(this);

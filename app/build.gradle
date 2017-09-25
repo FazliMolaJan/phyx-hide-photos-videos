@@ -45,7 +45,6 @@ dependencies {
     implementation library.daggerAndroidSupport
     annotationProcessor library.daggerAndroidProcessor
     implementation library.timber
-    implementation library.picasso
     implementation library.roomRuntime
     annotationProcessor library.roomCompiler
     implementation library.lifecycleRuntime
@@ -54,8 +53,11 @@ dependencies {
     implementation library.pinLock
     implementation library.butterKnife
     annotationProcessor library.butterKnifeCompiler
-    compile library.floatingAction
+    implementation library.floatingAction
     provided library.autoValue
     annotationProcessor library.autoValue
     annotationProcessor library.autoParcel
+    implementation library.glide
+    annotationProcessor library.glideCompiler
+
 }

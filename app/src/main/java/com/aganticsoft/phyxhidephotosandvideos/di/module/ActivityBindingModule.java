@@ -20,6 +20,6 @@ public abstract class ActivityBindingModule {
     abstract MainActivity contributeMainActivty();
 
     @ActivityScope
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(modules = {MediaChooseFragmentModule.class})
     abstract MediaChooseActivity contributeMediaChooseActivity();
 }
