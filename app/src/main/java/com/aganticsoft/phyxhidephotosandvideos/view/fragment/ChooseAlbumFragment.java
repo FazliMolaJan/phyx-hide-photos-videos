@@ -16,6 +16,7 @@ import com.aganticsoft.phyxhidephotosandvideos.adapter.ChooseAlbumAdapter;
 import com.aganticsoft.phyxhidephotosandvideos.di.Injectable;
 import com.aganticsoft.phyxhidephotosandvideos.model.MediaModel;
 import com.aganticsoft.phyxhidephotosandvideos.model.Resource;
+import com.aganticsoft.phyxhidephotosandvideos.view.activity.MediaChooseActivity;
 import com.aganticsoft.phyxhidephotosandvideos.viewmodel.MediaViewModel;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import timber.log.Timber;
  * Date: 9/25/2017.
  */
 
-public class ChooseAlbumFragment extends BaseFragment implements Injectable {
+public class ChooseAlbumFragment extends BaseFragment implements Injectable, ChooseAlbumAdapter.ChooseAlbumListener {
     @BindView(R.id.rvAlbum)
     RecyclerView rvAlbum;
 
@@ -78,7 +79,7 @@ public class ChooseAlbumFragment extends BaseFragment implements Injectable {
         View view = inflater.inflate(R.layout.fragment_choose_album, container, false);
         ButterKnife.bind(this, view);
 
-        albumAdapter = new ChooseAlbumAdapter(mContext, null, albumType);
+        albumAdapter = new ChooseAlbumAdapter(mContext, null, albumType, this);
         LinearLayoutManager llm = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         rvAlbum.setLayoutManager(llm);
         rvAlbum.setAdapter(albumAdapter);
@@ -134,5 +135,10 @@ public class ChooseAlbumFragment extends BaseFragment implements Injectable {
         } else { // error
             Timber.e("Loading image error");
         }
+    }
+
+    @Override
+    public void onAlbumChooseClick(String albumName, List<MediaModel> medias) {
+        ((MediaChooseActivity) getActivity()).onAlbumChooseClick(albumName, medias);
     }
 }

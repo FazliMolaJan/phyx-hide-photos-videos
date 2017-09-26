@@ -1,8 +1,7 @@
 package com.aganticsoft.phyxhidephotosandvideos.di.module;
 
-import com.aganticsoft.phyxhidephotosandvideos.view.activity.IntroActivity;
-import com.aganticsoft.phyxhidephotosandvideos.view.activity.MainActivity;
 import com.aganticsoft.phyxhidephotosandvideos.di.scope.ActivityScope;
+import com.aganticsoft.phyxhidephotosandvideos.view.activity.MainActivity;
 import com.aganticsoft.phyxhidephotosandvideos.view.activity.MediaChooseActivity;
 
 import dagger.Module;

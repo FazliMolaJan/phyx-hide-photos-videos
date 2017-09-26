@@ -41,6 +41,7 @@ ext {
             daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:${dagger_version}",
             appCompat: "com.android.support:appcompat-v7:${support_version}",
             appDesign: "com.android.support:design:${support_version}",
+            cardView: "com.android.support:cardview-v7:${support_version}",
             jUnit: "junit:junit:${junit_version}",
             constraintLayout: "com.android.support.constraint:constraint-layout:${constraint_layout_version}",
             timber: "com.jakewharton.timber:timber:${timber_version}",

@@ -1,13 +1,16 @@
 package com.aganticsoft.phyxhidephotosandvideos.di.component;
 
 import android.app.Application;
+
 import com.aganticsoft.phyxhidephotosandvideos.PhyxApp;
 import com.aganticsoft.phyxhidephotosandvideos.di.module.ActivityBindingModule;
 import com.aganticsoft.phyxhidephotosandvideos.di.module.AppModule;
+
+import javax.inject.Singleton;
+
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.support.AndroidSupportInjectionModule;
-import javax.inject.Singleton;
 
 /**
  * Created by ttson

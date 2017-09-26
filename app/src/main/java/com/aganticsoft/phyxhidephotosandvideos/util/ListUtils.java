@@ -1,9 +1,6 @@
 package com.aganticsoft.phyxhidephotosandvideos.util;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import android.text.TextUtils;
 
 /**
  * List Utils

@@ -6,21 +6,14 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.widget.Button;
 
 import com.aganticsoft.phyxhidephotosandvideos.PhyxApp;
 import com.aganticsoft.phyxhidephotosandvideos.R;
-import com.aganticsoft.phyxhidephotosandvideos.di.Injectable;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
 
 public class IntroActivity extends BaseActivity{
 

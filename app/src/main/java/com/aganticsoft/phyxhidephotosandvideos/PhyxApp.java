@@ -7,16 +7,15 @@ import android.os.Environment;
 import com.aganticsoft.phyxhidephotosandvideos.util.FileUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+
+import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import timber.log.Timber;
-import javax.inject.Inject;
 
 /**
  * Created by ttson

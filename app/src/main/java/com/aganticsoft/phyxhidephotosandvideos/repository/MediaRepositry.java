@@ -2,8 +2,6 @@ package com.aganticsoft.phyxhidephotosandvideos.repository;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.content.Context;
 
 import com.aganticsoft.phyxhidephotosandvideos.AppExecutors;
 import com.aganticsoft.phyxhidephotosandvideos.model.ImageLiveData;

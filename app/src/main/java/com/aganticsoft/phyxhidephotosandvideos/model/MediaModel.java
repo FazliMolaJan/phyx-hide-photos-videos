@@ -1,5 +1,6 @@
 package com.aganticsoft.phyxhidephotosandvideos.model;
 
+import android.os.Parcelable;
 import android.support.annotation.IntDef;
 
 import com.google.auto.value.AutoValue;
@@ -13,7 +14,7 @@ import static com.aganticsoft.phyxhidephotosandvideos.model.MediaModel.MediaType
  */
 
 @AutoValue
-public abstract class MediaModel {
+public abstract class MediaModel implements Parcelable {
     @IntDef(value = {TYPE_IMAGE, TYPE_VIDEO})
     public @interface MediaType {
         int TYPE_IMAGE = 0;

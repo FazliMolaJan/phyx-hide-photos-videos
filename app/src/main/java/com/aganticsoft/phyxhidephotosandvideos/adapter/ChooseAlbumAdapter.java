@@ -1,10 +1,7 @@
 package com.aganticsoft.phyxhidephotosandvideos.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +16,6 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -37,11 +33,18 @@ public class ChooseAlbumAdapter extends RecyclerView.Adapter<ChooseAlbumAdapter.
     private Map<String, List<MediaModel>> mapMedia;
     private List<String> albumNames;
     private @MediaModel.MediaType int albumType;
+    private ChooseAlbumListener albumClickListener;
 
-    public ChooseAlbumAdapter(Context context, Map<String, List<MediaModel>> mapMedia, @MediaModel.MediaType int albumType) {
+    public interface ChooseAlbumListener {
+        void onAlbumChooseClick(String albumName, List<MediaModel> medias);
+    }
+
+    public ChooseAlbumAdapter(Context context, Map<String, List<MediaModel>> mapMedia
+            , @MediaModel.MediaType int albumType, ChooseAlbumListener albumClickListener) {
         this.context = context;
         this.mapMedia = mapMedia;
         this.albumType = albumType;
+        this.albumClickListener = albumClickListener;
 
         if (this.albumNames == null)
             this.albumNames = new ArrayList<>();
@@ -63,20 +66,24 @@ public class ChooseAlbumAdapter extends RecyclerView.Adapter<ChooseAlbumAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         List<MediaModel> medias =  mapMedia.get(albumNames.get(position));
+        holder.itemView.setOnClickListener(v -> {
+            if (albumClickListener != null) albumClickListener.onAlbumChooseClick(albumNames.get(position),
+                    medias);
+        });
         holder.tvTitle.setText(albumNames.get(position));
         holder.tvNumItems.setText(medias.size() + " items");
 
         if (albumType == MediaModel.MediaType.TYPE_IMAGE) {
             Glide.with(context)
                     .load(medias.get(0).bucketUrl())
-                    .apply(RequestOptions.fitCenterTransform())
+                    .apply(RequestOptions.centerCropTransform())
                     .into(holder.ivThumbnail);
         } else {
             Glide
                     .with(context)
                     .asBitmap()
                     .load(Uri.fromFile(new File(medias.get(0).bucketUrl())))
-                    .apply(RequestOptions.fitCenterTransform())
+                    .apply(RequestOptions.centerCropTransform())
                     .into(holder.ivThumbnail);
         }
     }

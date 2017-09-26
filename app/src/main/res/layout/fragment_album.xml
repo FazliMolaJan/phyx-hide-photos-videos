@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_title="Add video"
-            fab:fab_icon="@drawable/ic_file_photo"
+            fab:fab_icon="@drawable/ic_file_video"
             fab:fab_size="mini"
             />
 

@@ -2,10 +2,7 @@ package com.aganticsoft.phyxhidephotosandvideos.di.module;
 
 import android.app.Application;
 
-import com.aganticsoft.phyxhidephotosandvideos.PhyxApp;
 import com.aganticsoft.phyxhidephotosandvideos.util.PrefManager;
-
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;

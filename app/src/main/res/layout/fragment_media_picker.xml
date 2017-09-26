@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvMediaItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/importIndicator"
+        />
+
+    <View
+        android:id="@+id/importIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/tvImport"
+        android:background="#dfdfdf"
+        />
+
+    <TextView
+        android:id="@+id/tvImport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Import"
+        android:textColor="@color/colorAccent"
+        android:textAlignment="center"
+        android:textSize="17sp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        />
+</RelativeLayout>

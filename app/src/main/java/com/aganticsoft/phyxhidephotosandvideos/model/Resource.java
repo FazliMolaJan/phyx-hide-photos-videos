@@ -1,7 +1,6 @@
 package com.aganticsoft.phyxhidephotosandvideos.model;
 
 import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import static com.aganticsoft.phyxhidephotosandvideos.model.Resource.Status.ERROR;
