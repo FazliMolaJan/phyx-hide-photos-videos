@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -38,13 +40,21 @@ public class MediaPickerAdapter extends RecyclerView.Adapter<MediaPickerAdapter.
     private @MediaModel.MediaType int mediaType;
     private List<MediaModel> medias;
     private Set<Integer> selectedItems = new HashSet<>();
+    private MediaPickerListener listener;
 
 
-    public MediaPickerAdapter(Context context, String albumName, @MediaModel.MediaType int mediaType, List<MediaModel> medias) {
+    public interface MediaPickerListener {
+        void onItemSelectChanged(int num, @Nullable MediaModel item);
+    }
+
+
+    public MediaPickerAdapter(Context context, String albumName, @MediaModel.MediaType int mediaType
+            , List<MediaModel> medias, MediaPickerListener listener) {
         this.mContext = context;
         this.albumName = albumName;
         this.medias = medias;
         this.mediaType = mediaType;
+        this.listener = listener;
     }
 
     @Override
@@ -93,9 +103,11 @@ public class MediaPickerAdapter extends RecyclerView.Adapter<MediaPickerAdapter.
                 selectedItems.add(position);
                 notifyItemChanged(position);
             }
+
+            if (listener != null) listener.onItemSelectChanged(selectedItems.size(), item);
         });
         holder.ivZoomView.setOnClickListener(v -> {
-
+            // TODO: Item preview
         });
 
         if (selectedItems.contains(position)) {
@@ -125,6 +137,18 @@ public class MediaPickerAdapter extends RecyclerView.Adapter<MediaPickerAdapter.
             results.add(medias.get(pos));
 
         return results;
+    }
+
+    public void toggleCheckAll() {
+        if (selectedItems.size() == medias.size()) { // check all ready
+            selectedItems.clear();
+        } else { // not full
+            for (int i = 0; i < medias.size(); i++)
+                selectedItems.add(i);
+        }
+
+        notifyDataSetChanged();
+        if (listener != null) listener.onItemSelectChanged(selectedItems.size(), null);
     }
 
     public class MediaViewHolder extends RecyclerView.ViewHolder {

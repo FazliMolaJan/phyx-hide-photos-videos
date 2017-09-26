@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.aganticsoft.phyxhidephotosandvideos.R;
 import com.aganticsoft.phyxhidephotosandvideos.model.MediaModel;
@@ -30,6 +32,10 @@ public class MediaChooseActivity extends BaseActivity implements HasSupportFragm
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    // After choose an album
+    private boolean isSelectingMedia;
+    private Menu menu;
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
@@ -57,6 +63,49 @@ public class MediaChooseActivity extends BaseActivity implements HasSupportFragm
         initFragment();
     }
 
+    @Override
+    public void onBackPressed() {
+
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            setResult(RESULT_CANCELED);
+            finish();
+        }
+
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+
+        changeOptionsMenu();
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_checkall:
+                mediaPickerFragment.toggleCheckAll();
+                break;
+        }
+
+        return true;
+    }
+
+    /**
+     * Change option menu based on {@link MediaChooseActivity#isSelectingMedia}
+     */
+    public void changeOptionsMenu() {
+        if (isSelectingMedia) {
+            getMenuInflater().inflate(R.menu.menu_check_all, menu);
+        } else {
+            menu.clear();
+        }
+    }
+
+
     private void initFragment() {
         frgChooseAlbum = ChooseAlbumFragment.getInstance(albumType);
 
@@ -72,15 +121,30 @@ public class MediaChooseActivity extends BaseActivity implements HasSupportFragm
                     .replace(R.id.main_content, frgChooseAlbum)
                     .addToBackStack(ChooseAlbumFragment.class.getSimpleName())
                     .commit();
+
+            isSelectingMedia = false;
+
+            if (albumType == MediaModel.MediaType.TYPE_IMAGE) {
+                getSupportActionBar().setTitle("Choose images to hide");
+            } else {
+                getSupportActionBar().setTitle("Choose videos to hide");
+            }
+
         } else {
             if (mediaPickerFragment == null)
                 return;
+
+            isSelectingMedia = true;
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.main_content, mediaPickerFragment)
                     .addToBackStack(MediaPickerFragment.class.getSimpleName())
                     .commit();
+
+            getSupportActionBar().setTitle("0 items selected");
         }
+
+        changeOptionsMenu();
     }
 
     private void initToolbar() {
@@ -94,6 +158,20 @@ public class MediaChooseActivity extends BaseActivity implements HasSupportFragm
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(view -> {
+            if (isSelectingMedia)
+            {
+                isSelectingMedia = false;
+
+
+                if (albumType == MediaModel.MediaType.TYPE_IMAGE) {
+                    getSupportActionBar().setTitle("Choose images to hide");
+                } else {
+                    getSupportActionBar().setTitle("Choose videos to hide");
+                }
+
+                changeOptionsMenu();
+            }
+
             onBackPressed();
         });
     }
@@ -117,13 +195,20 @@ public class MediaChooseActivity extends BaseActivity implements HasSupportFragm
         return dispatchingAndroidInjector;
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    /**
+     * This method be called when user choose an media item from {@link MediaPickerFragment#onItemSelectChanged(int, MediaModel)}
+     * @param num Number of item
+     * @param item Item clicked
+     */
+    public void onItemChanged(int num, MediaModel item) {
+        getSupportActionBar().setTitle(num + " items selected");
+    }
 
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            setResult(RESULT_CANCELED);
-            finish();
-        }
+    /**
+     * This method be called when user click import button {@link MediaPickerFragment#onImportClicked()}
+     * @param mediaModels List of media items want to import
+     */
+    public void onRequestImport(List<MediaModel> mediaModels) {
+
     }
 }
