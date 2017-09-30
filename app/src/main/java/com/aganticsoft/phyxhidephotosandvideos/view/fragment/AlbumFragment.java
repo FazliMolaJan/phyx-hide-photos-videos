@@ -1,16 +1,21 @@
 package com.aganticsoft.phyxhidephotosandvideos.view.fragment;
 
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.aganticsoft.phyxhidephotosandvideos.Constants;
@@ -20,6 +25,7 @@ import com.aganticsoft.phyxhidephotosandvideos.di.Injectable;
 import com.aganticsoft.phyxhidephotosandvideos.model.MediaModel;
 import com.aganticsoft.phyxhidephotosandvideos.util.CryptoUtils;
 import com.aganticsoft.phyxhidephotosandvideos.util.FilePathUtils;
+import com.aganticsoft.phyxhidephotosandvideos.util.FormatUtils;
 import com.aganticsoft.phyxhidephotosandvideos.util.PrefManager;
 import com.aganticsoft.phyxhidephotosandvideos.view.activity.MediaChooseActivity;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -29,6 +35,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -115,7 +122,6 @@ public class AlbumFragment extends BaseFragment implements Injectable {
                     else if (clipData != null && clipData.getItemCount() > 0 ) { // multiple file click
                         for (int i = 0; i < clipData.getItemCount(); i++) {
                             ClipData.Item item = clipData.getItemAt(i);
-                            String path = item.getUri().toString();
 
                             saveToStorage(item.getUri());
                         }
@@ -123,8 +129,19 @@ public class AlbumFragment extends BaseFragment implements Injectable {
 
                     break;
                 case REQUEST_CHOOSE_IMAGES:
+                    List<MediaModel> imagesModel = data.getParcelableArrayListExtra("data");
+
+                    for (MediaModel ml : imagesModel) {
+                        saveToStorage(new File(ml.bucketUrl()));
+                    }
+
                     break;
                 case REQUEST_CHOOSE_VIDEOS:
+                    List<MediaModel> videoModels = data.getParcelableArrayListExtra("data");
+
+                    for (MediaModel ml : videoModels) {
+                        saveToStorage(new File(ml.bucketUrl()));
+                    }
                     break;
                 default:
                     super.onActivityResult(requestCode, resultCode, data);
@@ -152,7 +169,6 @@ public class AlbumFragment extends BaseFragment implements Injectable {
                     CryptoUtils.saveFile(PhyxApp.getInstance().getStorageManager(), buffer, Constants.PATH_MAINALBUM
                              + displayName);
 
-                    // TODO: fix cannot delete
                     String realPath = FilePathUtils.getPath(mContext, uri);
                     File originalFile = new File(realPath);
                     originalFile.delete();
@@ -168,23 +184,27 @@ public class AlbumFragment extends BaseFragment implements Injectable {
         } else if (uri.toString().startsWith("file://")) {
             File originalFile = new File(uri.getPath());
 
-            int size = (int) originalFile.length();
-            byte[] bytes = new byte[size];
-            try {
-                BufferedInputStream buf = new BufferedInputStream(new FileInputStream(originalFile));
-                buf.read(bytes, 0, bytes.length);
-                buf.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            CryptoUtils.saveFile(PhyxApp.getInstance().getStorageManager()
-                    , bytes, Constants.PATH_MAINALBUM + originalFile.getName());
-
-            originalFile.delete();
+            saveToStorage(originalFile);
         }
 
 
+    }
+
+    private void saveToStorage(File originalFile) {
+        int size = (int) originalFile.length();
+        byte[] bytes = new byte[size];
+        try {
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(originalFile));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        CryptoUtils.saveFile(PhyxApp.getInstance().getStorageManager()
+                , bytes, Constants.PATH_MAINALBUM + originalFile.getName());
+
+        originalFile.delete();
     }
 
     // <editor-fold desc="[ =============== BIND CLICK ===================]">
@@ -207,6 +227,42 @@ public class AlbumFragment extends BaseFragment implements Injectable {
     @OnClick(R.id.fabAddAlbum)
     public void onClickAddAlbum() {
         fabMenus.collapse();
+
+        final EditText etName = new EditText(mContext);
+        etName.setSingleLine();
+        FrameLayout containerView = new FrameLayout(mContext);
+        FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_add_album_margin);
+        params.rightMargin = params.leftMargin;
+        params.topMargin = params.leftMargin;
+        params.bottomMargin = params.bottomMargin;
+
+        etName.setLayoutParams(params);
+        containerView.addView(etName);
+
+        etName.setHint("Album name");
+
+        AlertDialog alg = new AlertDialog.Builder(mContext)
+                .setTitle("Create new album:")
+                .setNegativeButton("CREATE", ((dialogInterface, i) -> {
+                    dialogInterface.dismiss();
+                }))
+                .setPositiveButton("CANCEL", (dialogInterface, i) -> {
+                    File f = new File(Constants.PATH_APP_DIR + etName.getText().toString());
+
+                    if (!f.exists())
+                        f.mkdirs();
+
+                    dialogInterface.dismiss();
+                })
+                .setView(containerView)
+                .create();
+
+        alg.show();
+
+        etName.post(() -> {
+            Timber.e("etname: %s", etName.getLayoutParams().getClass().getName());
+        });
     }
 
     @OnClick(R.id.fabAddFile)

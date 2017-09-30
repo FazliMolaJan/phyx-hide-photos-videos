@@ -15,7 +15,15 @@ public class Constants {
     public static final String MAIN_PREF = "main.pref";
     public static final String PIN_CODE = "pin.code";
 
+
+    /**
+     * Init at {@link PhyxApp#initDirectory()}
+     */
     public static String PATH_MAINALBUM = "";
+
+    /**
+     * Init at {@link PhyxApp#initDirectory()}
+     */
     public static String PATH_APP_DIR = "";
 
 }

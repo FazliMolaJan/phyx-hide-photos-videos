@@ -216,7 +216,7 @@ public class MediaChooseActivity extends BaseActivity implements HasSupportFragm
     public void onRequestImport(List<MediaModel> mediaModels) {
         Intent data = new Intent();
         data.putParcelableArrayListExtra("data", (ArrayList<? extends Parcelable>) mediaModels);
-
-        setResult(RESULT_OK);
+        setResult(RESULT_OK, data);
+        finish();
     }
 }

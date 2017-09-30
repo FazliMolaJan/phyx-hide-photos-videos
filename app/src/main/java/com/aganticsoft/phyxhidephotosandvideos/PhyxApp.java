@@ -69,15 +69,19 @@ public class PhyxApp extends Application implements HasActivityInjector {
 
         if (isDirCreated) {
             try {
-                InputStream inputStream = getAssets().open("readme.txt");
-                FileUtils.writeFile(appDir.getAbsolutePath() + File.separator + "/readme.txt", inputStream);
-
                 Constants.PATH_MAINALBUM = Environment.getExternalStorageDirectory().getAbsolutePath()
                         + File.separator + Constants.APP_DIR_NAME + File.separator + "MainAlbum" + File.separator;
                 Constants.PATH_APP_DIR = Environment.getExternalStorageDirectory().getAbsolutePath()
                         + File.separator + Constants.APP_DIR_NAME + File.separator;
-                File mainAlbumDir = new File(Constants.PATH_MAINALBUM);
 
+
+                // create readme.txt folder
+                InputStream inputStream = getAssets().open("readme.txt");
+                if (!new File(appDir.getAbsolutePath() + File.separator + "/readme.txt").exists())
+                    FileUtils.writeFile(appDir.getAbsolutePath() + File.separator + "/readme.txt", inputStream);
+
+                // create mainalbum folder
+                File mainAlbumDir = new File(Constants.PATH_MAINALBUM);
                 if (!mainAlbumDir.exists())
                     mainAlbumDir.mkdirs();
 
