@@ -52,11 +52,12 @@ public class IntroActivity extends BaseActivity{
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_WRITE_EXTERNAL:
+                PhyxApp.getInstance().initDirectory();
+
                 Intent intent = new Intent(this, InputEmailActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 
-                PhyxApp.getInstance().initDirectory();
 
                 break;
         }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.aganticsoft.phyxhidephotosandvideos.PhyxApp;
 import com.aganticsoft.phyxhidephotosandvideos.R;
 import com.andrognito.pinlockview.IndicatorDots;
 import com.andrognito.pinlockview.PinLockListener;
@@ -62,6 +63,8 @@ public class LockActivity extends BaseActivity {
             public void onComplete(String pin) {
                 if (type == TYPE_CREATE_PASSWORD) {
                     if (retypePassword) {
+                        PhyxApp.getInstance().initStorageEncrypt(pin);
+
                         Intent intent = new Intent(LockActivity.this, MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

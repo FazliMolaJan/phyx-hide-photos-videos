@@ -3,6 +3,7 @@ package com.aganticsoft.phyxhidephotosandvideos.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import com.aganticsoft.phyxhidephotosandvideos.model.MediaModel;
 import com.aganticsoft.phyxhidephotosandvideos.view.fragment.ChooseAlbumFragment;
 import com.aganticsoft.phyxhidephotosandvideos.view.fragment.MediaPickerFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,6 +27,9 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 /**
  * Two type of fragment inside: {@link ChooseAlbumFragment}, {@link MediaPickerFragment}
+ * <br/>Return type:
+ * <br/><t></t>RESULT_OK: Intent data with key "data": list of {@link MediaModel}
+ * <br/><t></t>RESULT_CANCEL
  */
 public class MediaChooseActivity extends BaseActivity implements HasSupportFragmentInjector {
 
@@ -209,6 +214,9 @@ public class MediaChooseActivity extends BaseActivity implements HasSupportFragm
      * @param mediaModels List of media items want to import
      */
     public void onRequestImport(List<MediaModel> mediaModels) {
+        Intent data = new Intent();
+        data.putParcelableArrayListExtra("data", (ArrayList<? extends Parcelable>) mediaModels);
 
+        setResult(RESULT_OK);
     }
 }

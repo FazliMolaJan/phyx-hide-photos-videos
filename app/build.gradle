@@ -30,7 +30,7 @@ android {
 
 dependencies {
     def library = rootProject.ext.dependencies
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -60,4 +60,5 @@ dependencies {
     implementation library.glide
     annotationProcessor library.glideCompiler
     implementation library.cardView
+    implementation project(':storage')
 }

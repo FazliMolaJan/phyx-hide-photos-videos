@@ -115,6 +115,18 @@ public class FileUtils {
         }
     }
 
+    public static void writeFile(String filePath, byte[] content) {
+        try {
+            FileOutputStream fos = new FileOutputStream(filePath);
+
+            fos.write(content);
+            fos.close();
+        }
+        catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * write file
      * 
