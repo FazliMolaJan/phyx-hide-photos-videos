@@ -2,14 +2,21 @@ package com.aganticsoft.phyxhidephotosandvideos.view.fragment;
 
 import android.app.AlertDialog;
 import android.content.ClipData;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +35,7 @@ import com.aganticsoft.phyxhidephotosandvideos.util.FilePathUtils;
 import com.aganticsoft.phyxhidephotosandvideos.util.FormatUtils;
 import com.aganticsoft.phyxhidephotosandvideos.util.PrefManager;
 import com.aganticsoft.phyxhidephotosandvideos.view.activity.MediaChooseActivity;
+import com.bumptech.glide.Glide;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
@@ -65,6 +73,9 @@ public class AlbumFragment extends BaseFragment implements Injectable {
     @BindView(R.id.multiple_actions)
     FloatingActionsMenu fabMenus;
 
+    @BindView(R.id.rvAlbum)
+    RecyclerView rvAlbum;
+
     public static final int REQUEST_CHOOSE_IMAGES = 0x91;
     public static final int REQUEST_CHOOSE_VIDEOS = 0x92;
     public static final int REQUEST_CHOOSE_FILES = 0x93;
@@ -89,7 +100,7 @@ public class AlbumFragment extends BaseFragment implements Injectable {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Context context)  {
         super.onAttach(context);
         this.mContext = context;
     }
@@ -99,6 +110,8 @@ public class AlbumFragment extends BaseFragment implements Injectable {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_album, container, false);
         ButterKnife.bind(this , v);
+
+
 
         return v;
     }
@@ -150,7 +163,10 @@ public class AlbumFragment extends BaseFragment implements Injectable {
         }
     }
 
-    private void saveToStorage(Uri uri) {
+    // <editor-fold desc="[ =============== STORAGE FUNCTION  ===================]">
+    private void saveToStorage(Uri uri)
+    {
+
         if (uri.toString().startsWith("content://")) {
             Cursor cursor = null;
             try {
@@ -167,11 +183,20 @@ public class AlbumFragment extends BaseFragment implements Injectable {
                     in.read(buffer);
 
                     CryptoUtils.saveFile(PhyxApp.getInstance().getStorageManager(), buffer, Constants.PATH_MAINALBUM
-                             + displayName);
+                            + displayName);
 
                     String realPath = FilePathUtils.getPath(mContext, uri);
+                    Uri uriPath = Uri.fromFile(new File(Constants.PATH_MAINALBUM
+                            + displayName));
+
                     File originalFile = new File(realPath);
                     originalFile.delete();
+
+
+                    Timber.e("content:// sendBroadcast urirealPath: %s, realPath: %s, originUri: %s",
+                            uriPath.toString(), realPath, uri.toString());
+                    scanFile(Constants.PATH_MAINALBUM + displayName, mContext); // TODO: currently not work
+                    delete(mContext, originalFile.getPath());
                 }
             }
             catch (Exception e) {
@@ -186,8 +211,6 @@ public class AlbumFragment extends BaseFragment implements Injectable {
 
             saveToStorage(originalFile);
         }
-
-
     }
 
     private void saveToStorage(File originalFile) {
@@ -201,11 +224,45 @@ public class AlbumFragment extends BaseFragment implements Injectable {
             e.printStackTrace();
         }
 
+        String newPath = Constants.PATH_MAINALBUM + originalFile.getName();
+
         CryptoUtils.saveFile(PhyxApp.getInstance().getStorageManager()
-                , bytes, Constants.PATH_MAINALBUM + originalFile.getName());
+                , bytes, newPath);
 
         originalFile.delete();
+
+        Timber.e("addFile originalFilePath: %s, newpath: %s", originalFile.getAbsolutePath(), newPath);
+
+
+        scanFile(newPath, mContext);
+        delete(mContext, originalFile.getPath());
     }
+
+    public static void scanFile(String path, Context c) {
+        System.out.println(path + " " + Build.VERSION.SDK_INT);
+        if (Build.VERSION.SDK_INT >= 19) {
+            MediaScannerConnection.scanFile(c, new String[]{path}, null, (path1, uri) -> {
+
+            });
+        } else {
+            Uri contentUri = Uri.fromFile(new File(path));
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri);
+            c.sendBroadcast(mediaScanIntent);
+        }
+    }
+
+    private void delete(final Context context, final String file) {
+        final String where = MediaStore.MediaColumns.DATA + "=?";
+        final String[] selectionArgs = new String[] {file};
+        final ContentResolver contentResolver = context.getContentResolver();
+        final Uri filesUri = MediaStore.Files.getContentUri("external");
+        // Delete the entry from the media database. This will actually delete media files.
+        contentResolver.delete(filesUri, where, selectionArgs);
+
+    }
+
+    // </editor-fold>
+
 
     // <editor-fold desc="[ =============== BIND CLICK ===================]">
 
